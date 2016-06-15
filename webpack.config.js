@@ -29,7 +29,14 @@ module.exports = {
             },
             { test: /\.html$/, loader: 'raw' },
         ],
-        noParse: [/.+zone\.js\/dist\/.+/, /.+angular2\/bundles\/.+/, /angular2-polyfills\.js/],
+        noParse: [/.+angular2\/bundles\/.+/, /angular2-polyfills\.js/],
+    },
+
+    externals: {
+        "jquery": "jQuery",
+        "core-js": true,
+        "zone.js": true,
+        "reflect-metadata": true,
     },
 
     plugins: [
@@ -45,6 +52,6 @@ module.exports = {
         }),
         new CopyWebpackPlugin([{
             from: './client/static'
-        }])
+        }]),
     ]
 }
