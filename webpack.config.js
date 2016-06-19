@@ -39,6 +39,7 @@ module.exports = {
                 exclude: /client\/style/,
             },
 
+            { test: /\.jade$/, loader: 'jade' },
             { test: /\.html$/, loader: 'raw' },
         ],
     },
@@ -58,7 +59,7 @@ module.exports = {
             name: ['vendor']
         }),
         new HtmlWebpackPlugin({
-            template: './client/static/index.html',
+            template: './client/index.jade',
             chunksSortMode: 'dependency'
         }),
         new CopyWebpackPlugin([{
