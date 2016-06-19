@@ -1,8 +1,9 @@
-
 var webpack = require('webpack');
+var autoprefixer = require('autoprefixer');
 
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 module.exports = {
 
@@ -25,11 +26,21 @@ module.exports = {
             {
                 test: /\.ts$/,
                 loader: 'ts',
-                exclude: /node_modules\/(?!(ng2-.+))/
             },
+
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract('style', 'css?postcss!sass'),
+                exclude: /client\/(?!(style))/,
+            },
+            {
+                test: /\.scss$/,
+                loader: 'raw!postcss!sass',
+                exclude: /client\/style/,
+            },
+
             { test: /\.html$/, loader: 'raw' },
         ],
-        noParse: [/.+angular2\/bundles\/.+/, /angular2-polyfills\.js/],
     },
 
     externals: {
@@ -53,5 +64,12 @@ module.exports = {
         new CopyWebpackPlugin([{
             from: './client/static'
         }]),
-    ]
+        new ExtractTextPlugin('css/[name].css'),
+    ],
+
+    postcss: [
+        autoprefixer({
+            browsers: ['last 2 version']
+        })
+    ],
 }
